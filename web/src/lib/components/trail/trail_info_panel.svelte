@@ -421,117 +421,119 @@
                     onmouseenter={openMarkerPopup}
                     onmouseleave={closeMarkerPopup}
                 ></TrailTimeline>
-
-                <div class="mb-6 mt-12">
-                    <Tabs {tabs} bind:activeTab></Tabs>
-                </div>
-                {#if activeTab == 0}
-                    <div class="overflow-x-auto">
-                        <SummitLogTable
-                            summitLogs={trail.expand?.summit_logs}
-                            showAuthor
-                            showRoute
-                            showPhotos
-                        ></SummitLogTable>
+                {#if $currentUser.email == 'orders@lostmtns.com'}
+                
+                    <div class="mb-6 mt-12">
+                        <Tabs {tabs} bind:activeTab></Tabs>
                     </div>
-                {/if}
-                {#if activeTab == 1}
-                    {#if trail.photos.length}
-                        <div
-                            id="photo-gallery"
-                            class="grid grid-cols-1 {mode == 'overview'
-                                ? 'sm:grid-cols-2 md:grid-cols-3'
-                                : ''} gap-4"
-                        >
-                            {#each trail.photos ?? [] as photo, i}
-                                <!-- svelte-ignore a11y_click_events_have_key_events -->
-                                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                                {#if isVideoURL(photo)}
-                                    <!-- svelte-ignore a11y_media_has_caption -->
-                                    <video
-                                        controls={false}
-                                        loop
-                                        class="rounded-xl cursor-pointer hover:scale-105 transition-transform"
-                                        onclick={() => gallery.openGallery(i)}
-                                        onmouseenter={(e) =>
-                                            (e.target as any).play()}
-                                        onmouseleave={(e) =>
-                                            (e.target as any).pause()}
-                                        src={getFileURL(trail, photo)}
-                                    ></video>
-                                {:else}
-                                    <img
-                                        class="rounded-xl cursor-pointer hover:scale-105 transition-transform"
-                                        onclick={() => gallery.openGallery(i)}
-                                        src={getFileURL(trail, photo)}
-                                        alt=""
-                                    />
-                                {/if}
-                            {/each}
+                    {#if activeTab == 0}
+                        <div class="overflow-x-auto">
+                            <SummitLogTable
+                                summitLogs={trail.expand?.summit_logs}
+                                showAuthor
+                                showRoute
+                                showPhotos
+                            ></SummitLogTable>
                         </div>
-                    {:else}
-                        <EmptyStatePhotos></EmptyStatePhotos>
                     {/if}
-                {/if}
-                {#if activeTab == 2}
-                    <div>
-                        {#if $currentUser}
-                            <div class="flex items-center gap-4">
-                                <img
-                                    class="rounded-full w-10 aspect-square"
-                                    src={getFileURL(
-                                        $currentUser,
-                                        $currentUser.avatar,
-                                    ) ||
-                                        `https://api.dicebear.com/7.x/initials/svg?seed=${$currentUser.username}&backgroundType=gradientLinear`}
-                                    alt="avatar"
-                                />
-                                <div class="basis-full">
-                                    <Textarea
-                                        bind:value={newComment.text}
-                                        rows={2}
-                                        placeholder="Add comment..."
-                                    ></Textarea>
-                                </div>
-                            </div>
-                            <div class="flex justify-end mt-3">
-                                <Button
-                                    onclick={createComment}
-                                    loading={commentCreateLoading}
-                                    secondary={true}
-                                    disabled={commentCreateLoading ||
-                                        newComment.text.length == 0}
-                                    >Comment</Button
-                                >
-                            </div>
-                        {/if}
-                        {#if commentsLoading}
-                            {#each { length: 3 } as _, index}
-                                <SkeletonNotificationCard
-                                ></SkeletonNotificationCard>
-                            {/each}
-                        {:else if $comments.length == 0}
-                            <div class="my-4">
-                                <EmptyStateComment></EmptyStateComment>
+                    {#if activeTab == 1}
+                        {#if trail.photos.length}
+                            <div
+                                id="photo-gallery"
+                                class="grid grid-cols-1 {mode == 'overview'
+                                    ? 'sm:grid-cols-2 md:grid-cols-3'
+                                    : ''} gap-4"
+                            >
+                                {#each trail.photos ?? [] as photo, i}
+                                    <!-- svelte-ignore a11y_click_events_have_key_events -->
+                                    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                                    {#if isVideoURL(photo)}
+                                        <!-- svelte-ignore a11y_media_has_caption -->
+                                        <video
+                                            controls={false}
+                                            loop
+                                            class="rounded-xl cursor-pointer hover:scale-105 transition-transform"
+                                            onclick={() => gallery.openGallery(i)}
+                                            onmouseenter={(e) =>
+                                                (e.target as any).play()}
+                                            onmouseleave={(e) =>
+                                                (e.target as any).pause()}
+                                            src={getFileURL(trail, photo)}
+                                        ></video>
+                                    {:else}
+                                        <img
+                                            class="rounded-xl cursor-pointer hover:scale-105 transition-transform"
+                                            onclick={() => gallery.openGallery(i)}
+                                            src={getFileURL(trail, photo)}
+                                            alt=""
+                                        />
+                                    {/if}
+                                {/each}
                             </div>
                         {:else}
-                            <ul class="space-y-4">
-                                {#each $comments ?? [] as comment}
-                                    <li>
-                                        <CommentCard
-                                            {comment}
-                                            mode={comment.author ==
-                                            $currentUser?.id
-                                                ? "edit"
-                                                : "show"}
-                                            ondelete={deleteComment}
-                                            onedit={editComment}
-                                        ></CommentCard>
-                                    </li>
-                                {/each}
-                            </ul>
+                            <EmptyStatePhotos></EmptyStatePhotos>
                         {/if}
-                    </div>
+                    {/if}
+                    {#if activeTab == 2}
+                        <div>
+                            {#if $currentUser}
+                                <div class="flex items-center gap-4">
+                                    <img
+                                        class="rounded-full w-10 aspect-square"
+                                        src={getFileURL(
+                                            $currentUser,
+                                            $currentUser.avatar,
+                                        ) ||
+                                            `https://api.dicebear.com/7.x/initials/svg?seed=${$currentUser.username}&backgroundType=gradientLinear`}
+                                        alt="avatar"
+                                    />
+                                    <div class="basis-full">
+                                        <Textarea
+                                            bind:value={newComment.text}
+                                            rows={2}
+                                            placeholder="Add comment..."
+                                        ></Textarea>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end mt-3">
+                                    <Button
+                                        onclick={createComment}
+                                        loading={commentCreateLoading}
+                                        secondary={true}
+                                        disabled={commentCreateLoading ||
+                                            newComment.text.length == 0}
+                                        >Comment</Button
+                                    >
+                                </div>
+                            {/if}
+                            {#if commentsLoading}
+                                {#each { length: 3 } as _, index}
+                                    <SkeletonNotificationCard
+                                    ></SkeletonNotificationCard>
+                                {/each}
+                            {:else if $comments.length == 0}
+                                <div class="my-4">
+                                    <EmptyStateComment></EmptyStateComment>
+                                </div>
+                            {:else}
+                                <ul class="space-y-4">
+                                    {#each $comments ?? [] as comment}
+                                        <li>
+                                            <CommentCard
+                                                {comment}
+                                                mode={comment.author ==
+                                                $currentUser?.id
+                                                    ? "edit"
+                                                    : "show"}
+                                                ondelete={deleteComment}
+                                                onedit={editComment}
+                                            ></CommentCard>
+                                        </li>
+                                    {/each}
+                                </ul>
+                            {/if}
+                        </div>
+                    {/if}
                 {/if}
             </div>
 

@@ -257,7 +257,7 @@
                 onclick={() => (filterExpanded = !filterExpanded)}
                 ><i class="fa fa-sliders"></i></button
             >
-            {#if $currentUser}
+            {#if $currentUser === 'orders@lostmtns.com'}
                 <a
                     aria-label="New list"
                     class="btn-primary tooltip"

@@ -7,7 +7,7 @@
     class="bg-footer-background text-white w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-12 p-12 mt-12 rounded-t-3xl"
 >
     <div class="col-span-2 md:col-span-1">
-        <LogoTextLightWithVersion></LogoTextLightWithVersion>
+        <img src="https://lostmtns.com/cdn/shop/files/lostmtns_logo_white.png?v=1742802124&width=165" alt="#LostMTNS Maps"/>
     </div>
     <div>
         <h5 class="font-semibold">Resources</h5>

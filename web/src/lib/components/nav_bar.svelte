@@ -136,9 +136,11 @@
     <hr class="my-6 border-input-border" />
     <div class="flex flex-col basis-full">
         {#if user}
+            {#if user.email == 'orders@lostmtns.com'}
             <a class="btn-primary text-center mx-4" href="/trail/edit/new"
                 ><i class="fa fa-plus mr-2"></i>{$_("new-trail")}</a
             >
+            {/if}
             <div class="basis-full"></div>
             <hr class="border-input-border" />
             <div class="flex gap-4 items-center justify-between m-4">
@@ -182,9 +184,9 @@
 <nav class="flex justify-between items-center p-6">
     <a href="/">
         {#if $theme == "light"}
-            <LogoText></LogoText>
+            <img src="https://lostmtns.com/cdn/shop/files/lostmtns_logo_black.png?v=1742802124&width=165" alt="#LostMTNS Maps"/>
         {:else}
-            <LogoTextLight></LogoTextLight>
+             <img src="https://lostmtns.com/cdn/shop/files/lostmtns_logo_white.png?v=1742802124&width=165"alt="#LostMTNS Maps" />
         {/if}
     </a>
     <menu id="nav-bar-links" class="hidden lg:flex gap-8 relative py-1 px-2">
@@ -206,6 +208,7 @@
                 onclick={() => toggleTheme()}
             ></button>
             <div class="flex">
+                {#if user.email == 'orders@lostmtns.com'}
                 <a
                     class="btn-primary btn-large !rounded-r-none focus:ring-0"
                     href="/trail/edit/new"
@@ -224,6 +227,7 @@
                         >
                     {/snippet}
                 </Dropdown>
+                {/if}
             </div>
             {#if page.data.notifications}
                 <NotificationDropdown></NotificationDropdown>
